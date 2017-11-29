@@ -178,6 +178,7 @@ LrTasks.startAsyncTask(
       Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
       Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
       Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
+<<<<<<< HEAD
       LocalPreset1 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[1]) end,
       LocalPreset2 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[2]) end,
       LocalPreset3 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[3]) end,
@@ -186,6 +187,24 @@ LrTasks.startAsyncTask(
       LocalPreset6 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[6]) end,
       LocalPreset7 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[7]) end,
       LocalPreset8 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[8]) end,
+=======
+      LocalPreset1  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[1]) end,
+      LocalPreset2  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[2]) end,
+      LocalPreset3  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[3]) end,
+      LocalPreset4  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[4]) end,
+      LocalPreset5  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[5]) end,
+      LocalPreset6  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[6]) end,
+      LocalPreset7  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[7]) end,
+      LocalPreset8  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[8]) end,
+      LocalPreset9  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[9]) end,
+      LocalPreset10 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[10]) end,
+      LocalPreset11 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[11]) end,
+      LocalPreset12 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[12]) end,
+      LocalPreset13 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[13]) end,
+      LocalPreset14 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[14]) end,
+      LocalPreset15 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[15]) end,
+      LocalPreset16 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[16]) end,
+>>>>>>> upstream/develop
       LRCopy                   = CU.SimulateKeys('2c'),
       LRPaste                  = CU.SimulateKeys('2v'),
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
@@ -193,6 +212,7 @@ LrTasks.startAsyncTask(
       Next                     = LrSelection.nextPhoto,
       PasteSelectedSettings    = CU.PasteSelectedSettings,
       PasteSettings            = CU.PasteSettings,
+      Pause                    = function() LrTasks.sleep( 0.02 ) end,
       Pick                     = LrSelection.flagAsPick,
       PointCurveLinear         = CU.UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
       PointCurveMediumContrast = CU.UpdatePointCurve({ToneCurveName="Medium Contrast",ToneCurveName2012="Medium Contrast",
@@ -401,6 +421,53 @@ LrTasks.startAsyncTask(
       ZoomOutSmallStep         = LrApplicationView.zoomOutSome,
     }
 
+    local IsKeyPress = {
+      CycleMaskOverlayColor = true,
+      Key1  = true,
+      Key2  = true,
+      Key3  = true,
+      Key4  = true,
+      Key5  = true,
+      Key6  = true,
+      Key7  = true,
+      Key8  = true,
+      Key9  = true,
+      Key10 = true,
+      Key11 = true,
+      Key12 = true,
+      Key13 = true,
+      Key14 = true,
+      Key15 = true,
+      Key16 = true,
+      Key17 = true,
+      Key18 = true,
+      Key19 = true,
+      Key20 = true,
+      Key21 = true,
+      Key22 = true,
+      Key23 = true,
+      Key24 = true,
+      Key25 = true,
+      Key26 = true,
+      Key27 = true,
+      Key28 = true,
+      Key29 = true,
+      Key30 = true,
+      Key31 = true,
+      Key32 = true,
+      Key33 = true,
+      Key34 = true,
+      Key35 = true,
+      Key36 = true,
+      Key37 = true,
+      Key38 = true,
+      Key39 = true,
+      Key40 = true,
+      LRCopy = true,
+      LRPaste = true,
+      ShowMaskOverlay = true,
+    }
+
     local SETTINGS = {
       ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
       ChangedToFile      = function(value) Profiles.setFile(value) end,
@@ -414,6 +481,7 @@ LrTasks.startAsyncTask(
       end,
     }
 
+<<<<<<< HEAD
     local function RunActionSeries(strarg)
       local value -- will need to assign when enable settings functions
       for i in strarg:gmatch("[%w_]+") do
@@ -433,11 +501,45 @@ LrTasks.startAsyncTask(
             local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
             local lrvalue = LrDevelopController.getValue(resetparam)
             LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+=======
+    local function RunActionSeries(strarg1)
+      local strarg = strarg1 -- make argument available to async task
+      LrTasks.startAsyncTask(
+        function()
+          local value -- will need to assign when enable settings functions
+          local LastIsKeyPress = false
+          for i in strarg:gmatch("[%w_]+") do
+            local CurrentIsKeyPress = IsKeyPress[i]
+            if LastIsKeyPress and CurrentIsKeyPress == nil then
+              if i ~= 'Pause' then
+                ACTIONS.Pause()
+              end
+            end
+            LastIsKeyPress = CurrentIsKeyPress
+            if(ACTIONS[i]) then -- perform a one time action
+              ACTIONS[i]()
+            elseif(SETTINGS[i]) then -- do something requiring the transmitted value to be known
+              SETTINGS[i](value)
+            elseif(Virtual[i]) then -- handle a virtual command
+              local lp = Virtual[i](value, UpdateParam)
+              if lp then
+                LastParam = lp
+              end
+            elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+              local resetparam = i:sub(6)
+              Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
+              if ProgramPreferences.ClientShowBezelOnChange then
+                local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
+                local lrvalue = LrDevelopController.getValue(resetparam)
+                LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+              end
+            else -- otherwise update a develop parameter -- removed recursion guard as it is not in scope here
+              UpdateParam(i,tonumber(value))
+            end
+>>>>>>> upstream/develop
           end
-        else -- otherwise update a develop parameter
-          guardsetting:performWithGuard(UpdateParam,i,tonumber(value))
-        end
-      end
+        end 
+      )
     end
 
     --assign after defining RunActionSeries function
